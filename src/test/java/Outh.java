@@ -9,16 +9,21 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
 import pojo.Api;
 import pojo.GetCourse;
 import pojo.WebAutomation;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.Matchers.*;
 
 public class Outh {
+
     public static void main(String[] arg) throws InterruptedException {
+        String[] expectedWebCourses = {"Selenium Webdriver Java", "Cypress", "Protractor"};
 
 //        System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver");
 //        WebDriver driver = new ChromeDriver();
@@ -31,7 +36,7 @@ public class Outh {
 //        driver.findElement(By.cssSelector("input[type='password']")).sendKeys(Keys.ENTER);
 //        Thread.sleep(3000);
 
-        String url = "https://rahulshettyacademy.com/getCourse.php?code=4%2F0AdQt8qg6277s8VywsmV8fLDudZALtJ6udBuzffE9M9h25wZfFF7OgmWNHtvoE84pY71kOg&scope=email+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email+openid&authuser=0&prompt=none";//        String url = driver.getCurrentUrl();
+        String url = "https://rahulshettyacademy.com/getCourse.php?code=4%2F0AdQt8qg47pYQS0n8OD7jldMk5OqUgK82NRufoVDo5d2yaQtSeeGx8U4R5B-ofKW_nJPdeg&scope=email+openid+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email&authuser=0&prompt=none";//        String url = driver.getCurrentUrl();
         String partialCode = url.split("code=")[1];
         String code = partialCode.split("&scope")[0];
         System.out.println(code);
@@ -61,14 +66,27 @@ public class Outh {
         System.out.println(res.getInstructor());
         System.out.println(res.getCourses().getWebAutomation().get(1).getCourseTitle());
         List<WebAutomation> webCourses = res.getCourses().getWebAutomation();
-        List<Api> apiCourses = res.getCourses().getApi();
+
+//      Get the course price of webcourse whose title is Cypress
         for (int i = 0; i < webCourses.size(); i++) {
             if (webCourses.get(i).getCourseTitle().equalsIgnoreCase("Cypress")) {
                 System.out.println(webCourses.get(i).getPrice());
             }
         }
+//      Compare actual result vs expected result of course title of web courses
+        ArrayList<String> actualResult = new ArrayList<String>();
+        for (int i = 0; i < webCourses.size(); i++) {
+            actualResult.add(webCourses.get(i).getCourseTitle());
+        }
+        List<String> expectedWebCoursesList = Arrays.asList(expectedWebCourses);
+
+        Assert.assertEquals(expectedWebCoursesList, actualResult);
+
+//        Get course titles of api courses
+        List<Api> apiCourses = res.getCourses().getApi();
         for (int i = 0; i < apiCourses.size(); i++) {
             System.out.println(apiCourses.get(i).getCourseTitle());
         }
+
     }
 }
