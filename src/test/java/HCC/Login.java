@@ -4,23 +4,24 @@ import io.restassured.RestAssured;
 import io.restassured.path.json.JsonPath;
 import org.testng.annotations.Test;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
 
 
 public class Login {
     @Test
-    public void login() {
+    public void login() throws IOException {
 
         RestAssured.baseURI = "https://qa-hcc.mynisum.com/api/v1";
 
         String res = given().log().all()
                 .relaxedHTTPSValidation()
                 .header("Content-Type", "application/json")
-                .body("{\n" +
-                        "    \"username\": \"anaeem@nisum.com\",\n" +
-                        "    \"password\": \"nisum123\"\n" +
-                        "}")
+                .body(new String(Files.readAllBytes(Paths.get("src/test/java/HCC/loginCredential.json"))))
                 .when().post("/auth/login")
                 .then().log().all()
                 .extract().response().asString();
