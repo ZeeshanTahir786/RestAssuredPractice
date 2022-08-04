@@ -36,7 +36,7 @@ public class Outh {
 //        driver.findElement(By.cssSelector("input[type='password']")).sendKeys(Keys.ENTER);
 //        Thread.sleep(3000);
 
-        String url = "https://rahulshettyacademy.com/getCourse.php?code=4%2F0AdQt8qg47pYQS0n8OD7jldMk5OqUgK82NRufoVDo5d2yaQtSeeGx8U4R5B-ofKW_nJPdeg&scope=email+openid+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email&authuser=0&prompt=none";//        String url = driver.getCurrentUrl();
+        String url = "https://rahulshettyacademy.com/getCourse.php?code=4%2F0AdQt8qhCxH1-IlEY6FvDhv5blpAsYDvKCFMOkzPV0s-7LbsNi2v36aEgw00iQ8jtAicfrQ&scope=email+openid+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email&authuser=0&prompt=none";//        String url = driver.getCurrentUrl();
         String partialCode = url.split("code=")[1];
         String code = partialCode.split("&scope")[0];
         System.out.println(code);
@@ -62,6 +62,9 @@ public class Outh {
                 .when()
                 .get("https://rahulshettyacademy.com/getCourse.php")
                 .as(GetCourse.class);
+
+//        Deserialization
+
         System.out.println(res.getLinkedIn());
         System.out.println(res.getInstructor());
         System.out.println(res.getCourses().getWebAutomation().get(1).getCourseTitle());
