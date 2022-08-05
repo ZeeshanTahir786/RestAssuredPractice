@@ -3,6 +3,8 @@ import io.restassured.path.json.JsonPath;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.util.List;
+
 import static io.restassured.RestAssured.given;
 
 public class JsonPlaceHolder {
@@ -22,16 +24,19 @@ public class JsonPlaceHolder {
 //        Assert.assertEquals(size, 100);
 
 //      Post
+        String uid = "106";
+        String Id = null;
+
         given().log().all()
                 .header("Content-Type", "application/json")
                 .body("{\n" +
                         "    \"userId\": 11,\n" +
-                        "    \"id\": 103,\n" +
+                        "    \"id\": " + uid + ",\n" +
                         "    \"title\": \"Pakistan \",\n" +
                         "    \"body\": \"happy  day\"\n" +
                         "}")
                 .when().post("/posts")
-                .then().assertThat().statusCode(201)
+                .then()
                 .log().all().extract().response().asString();
 
 //        Get
@@ -41,9 +46,17 @@ public class JsonPlaceHolder {
                 .extract().response().asString();
 
         JsonPath jsonPath = new JsonPath(res);
+
         int size = jsonPath.get("object.size()");
+        List arr = jsonPath.get("object");
+        for (int i = 0; i < size; i++) {
+            String id = jsonPath.get("arr[" + i + "]id");
+            if (id.equalsIgnoreCase(uid)) {
+                Id = jsonPath.get("[" + i + "].id");
+            }
+        }
         System.out.println(size);
-        String Id = jsonPath.getString("id[1]");
+//        String Id = jsonPath.getString("id[1]");
         System.out.println(Id);
 //        Assert.assertEquals(size, 100);
 //        Update (PUT)
@@ -60,11 +73,12 @@ public class JsonPlaceHolder {
                 .extract().response().asString();
 
 //        Delete
-    given().log().all()
-            .header("Content-Type", "application/json")
-            .pathParam("id",Id)
-            .when().delete("/posts/{id}")
-            .then().log().all()
-            .extract().response();
+        given().log().all()
+                .header("Content-Type", "application/json")
+                .pathParam("id", Id)
+                .when().delete("/posts/{id}")
+                .then().log().all()
+                .assertThat().statusCode(200)
+                .extract().response();
     }
 }

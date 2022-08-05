@@ -1,24 +1,17 @@
 
-import com.beust.ah.A;
 import io.restassured.parsing.Parser;
 import io.restassured.path.json.JsonPath;
 
 import static io.restassured.RestAssured.*;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
-import pojo.Api;
-import pojo.GetCourse;
-import pojo.WebAutomation;
+import pojo.deSerialization.Api;
+import pojo.deSerialization.GetCourse;
+import pojo.deSerialization.WebAutomation;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import static org.hamcrest.Matchers.*;
 
 public class Outh {
 

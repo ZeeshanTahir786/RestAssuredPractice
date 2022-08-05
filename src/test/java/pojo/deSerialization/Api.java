@@ -1,6 +1,6 @@
-package pojo;
+package pojo.deSerialization;
 
-public class Mobile {
+public class Api {
     public String getCourseTitle() {
         return courseTitle;
     }
