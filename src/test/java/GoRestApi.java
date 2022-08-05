@@ -14,6 +14,7 @@ public class GoRestApi {
     @Test
     public void crud() throws IOException {
         RestAssured.baseURI = "https://reqres.in/api";
+
         given().log().all()
                 .when().get("/users")
                 .then().log().all()
@@ -37,6 +38,8 @@ public class GoRestApi {
         String id = jsonPath.get("id");
         System.out.println(id);
 
+//        PUT
+
         given().log().all()
                 .body("{\n" +
                         "    \"name\": \"Saleem\",\n" +
@@ -47,7 +50,13 @@ public class GoRestApi {
                 .assertThat().statusCode(200)
                 .extract().response().asString();
 
-
+//        given().log().all()
+//                .when().get("/users/" + id + "")
+//                .then().log().all()
+//                .assertThat().statusCode(200)
+//                .extract()
+//                .response().asString();
+//      Delete
 
         given().log().all()
                 .when().delete("/users/" + id + "")

@@ -2,6 +2,7 @@ import io.restassured.RestAssured;
 import io.restassured.path.json.JsonPath;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import pojo.deSerialization.WebAutomation;
 
 import java.util.List;
 
@@ -24,14 +25,14 @@ public class JsonPlaceHolder {
 //        Assert.assertEquals(size, 100);
 
 //      Post
-        String uid = "106";
-        String Id = null;
+//        String uid = "108";
+        String Id = "108";
 
         given().log().all()
                 .header("Content-Type", "application/json")
                 .body("{\n" +
                         "    \"userId\": 11,\n" +
-                        "    \"id\": " + uid + ",\n" +
+                        "    \"id\": " + Id + ",\n" +
                         "    \"title\": \"Pakistan \",\n" +
                         "    \"body\": \"happy  day\"\n" +
                         "}")
@@ -45,20 +46,7 @@ public class JsonPlaceHolder {
                 .then().log().all().assertThat().statusCode(200)
                 .extract().response().asString();
 
-        JsonPath jsonPath = new JsonPath(res);
 
-        int size = jsonPath.get("object.size()");
-        List arr = jsonPath.get("object");
-        for (int i = 0; i < size; i++) {
-            String id = jsonPath.get("arr[" + i + "]id");
-            if (id.equalsIgnoreCase(uid)) {
-                Id = jsonPath.get("[" + i + "].id");
-            }
-        }
-        System.out.println(size);
-//        String Id = jsonPath.getString("id[1]");
-        System.out.println(Id);
-//        Assert.assertEquals(size, 100);
 //        Update (PUT)
 
         given().log().all()
